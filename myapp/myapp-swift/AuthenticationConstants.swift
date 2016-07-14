@@ -14,6 +14,7 @@ struct AuthenticationConstants {
     static let RedirectUri = NSURL.init(string: "http://localhost:5239")
     static let Authority   = "https://login.microsoftonline.com/common"
     static let ResourceId  = "http://localhost:5000/1/9646111a-31f7-11e6-a9a7-0f220aab2a15"
+    static let SendUri     = "https://kewang-webapp.azurewebsites.net/sendmail"
 
 }
 

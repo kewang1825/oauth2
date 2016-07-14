@@ -49,7 +49,7 @@ class SendMailViewController : UIViewController {
         updateUI(showActivityIndicator: true, statusText: "Sending")
         self.userEmailAddress = self.emailTextField.text;
         
-        let request = NSMutableURLRequest(URL: NSURL(string: "http://localhost:5000/sendmail/\(self.userEmailAddress)")!)
+        let request = NSMutableURLRequest(URL: NSURL(string: "\(AuthenticationConstants.SendUri)/\(self.userEmailAddress)")!)
         request.HTTPMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("application/json, text/plain, */*", forHTTPHeaderField: "Accept")

@@ -47,6 +47,8 @@ class AuthenticationManager {
         self.context.acquireTokenWithResource(AuthenticationConstants.ResourceId,
             clientId: AuthenticationConstants.ClientId,
             redirectUri: AuthenticationConstants.RedirectUri,
+            userId: nil,
+            extraQueryParameters: "prompt=consent",
             completionBlock:{
             (result:ADAuthenticationResult!) -> Void in
                 
