@@ -1,10 +1,11 @@
 from auth_helper import get_token_service_to_service
+from config import messages_url
 import json
 import requests
 
 
 def call_get_mail(access_token, user_id):
-    rest_url = "http://localhost:5000/messages/{0}".format(user_id)
+    rest_url = "{0}/{1}".format(messages_url, user_id)
     header_data = {'Content-Type': 'application/json',
                    'Authorization': "Bearer {0}".format(access_token)
                    }
