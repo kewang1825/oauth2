@@ -1,5 +1,5 @@
-from flask.ext.httpauth import HTTPTokenAuth
-from flask import Flask, jsonify, abort, make_response, request, redirect
+from flask_httpauth import HTTPTokenAuth
+from flask import Flask, jsonify, url_for, make_response, request, redirect
 from auth_helper import get_token_on_behalf, get_token_refresh, get_signin_url, validate_token
 from graph_service import call_me_endpoint, call_send_mail_endpoint, call_messages_endpoint
 from token_cache import TokenCache
@@ -27,7 +27,8 @@ def verify_token(token):
 
 @app.route('/')
 def login():
-    login_url = get_signin_url('http://localhost:5000/hello')
+    redirect_url = url_for('hello', _external=True)
+    login_url = get_signin_url(redirect_url)
     return redirect(login_url)
 
 

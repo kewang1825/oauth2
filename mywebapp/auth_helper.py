@@ -29,7 +29,8 @@ def get_signin_url(redirect_uri):
     # Build the query parameters for the signin URL.
     params = {'client_id': client_id,
               'redirect_uri': redirect_uri,
-              'response_type': 'code'
+              'response_type': 'code',
+              'prompt': 'consent'
               }
 
     signin_url = authorize_url.format(urlencode(params))
