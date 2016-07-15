@@ -18,6 +18,17 @@ token_url = '{0}{1}'.format(authority, '/common/oauth2/token')
 def validate_token(oauth_token):
     decoded = jwt.decode(oauth_token, verify=False)
     print "claims:", json.dumps(decoded, indent=4)
+
+    iss = decoded['iss']
+    if iss != "https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/":
+        print "unknown issuer - {0}".format(iss)
+        return False
+
+    aud = decoded['aud']
+    if aud != "http://localhost:5000/1/9646111a-31f7-11e6-a9a7-0f220aab2a15":
+        print "unknown audience - {0}".format(aud)
+        return False
+
     exp = decoded['exp']
     valid = datetime.now() <= datetime.fromtimestamp(exp)
     if not valid:
