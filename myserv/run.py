@@ -17,16 +17,14 @@ def call_get_mail(access_token, user_id):
     try:
         return r.json()
     except:
-        return 'Error getting messages: {0} - {1}'.format(r.status_code, r.text)
+        return {"status": r.status_code, "details": r.text}
 
 
 def main():
-    token_response = get_token_service_to_service()
-    print json.dumps(token_response, indent=4)
-    access_token = token_response['access_token']
-
-    result = call_get_mail(access_token, user_id="namprd21anchor@microsoft.onmicrosoft.com")
-    print json.dumps(result, indent=4)
+    access_token = get_token_service_to_service()
+    if access_token is not None:
+        result = call_get_mail(access_token, user_id="namprd21anchor@microsoft.onmicrosoft.com")
+        print json.dumps(result, indent=4)
 
 
 if __name__ == '__main__':

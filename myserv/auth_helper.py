@@ -6,7 +6,7 @@ from config import client_id, client_secret
 authority = 'https://login.microsoftonline.com'
 
 # The token issuing endpoint.
-token_url = '{0}{1}'.format(authority, '/72f988bf-86f1-41af-91ab-2d7cd011db47/oauth2/token')
+token_url = '{0}{1}'.format(authority, '/microsoft.com/oauth2/token')
 
 
 # This function requests client credential flow to the token
@@ -24,6 +24,10 @@ def get_token_service_to_service():
     r = requests.post(token_url, data=post_data)
 
     try:
-        return r.json()
+        token_response = r.json()
+        print json.dumps(token_response, indent=4)
+        return token_response["access_token"]
     except:
-        return 'Error retrieving token: {0} - {1}'.format(r.status_code, r.text)
+        print 'Error retrieving token: {0} - {1}'.format(r.status_code, r.text)
+        return None
+
