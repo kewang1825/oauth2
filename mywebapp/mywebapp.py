@@ -91,7 +91,7 @@ def get_mail(user_id):
     result = call_messages_endpoint(access_token)
     print json.dumps(result, indent=4)
 
-    return make_response(result['details'], result['status'])
+    return make_response(jsonify(result['details']), result['status'])
 
 
 if __name__ == '__main__':

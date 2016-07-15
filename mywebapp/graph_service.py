@@ -34,7 +34,7 @@ def call_me_endpoint(access_token):
     try:
         return r.json()
     except:
-        return 'Error retrieving user info: {0} - {1}'.format(r.status_code, r.text)
+        return {"status": r.status_code, "details": r.text}
 
 
 def call_send_mail_endpoint(access_token, email_text, email_address):
@@ -107,4 +107,8 @@ def call_messages_endpoint(access_token):
     print "GET {0}".format(message_url)
     print json.dumps(headers, indent=4)
     response = requests.get(url=message_url, headers=headers)
-    return {"status": response.status_code, "details": response.text}
+
+    try:
+        return {"status": response.status_code, "details": response.json()}
+    except:
+        return {"status": response.status_code, "details": response.text}
