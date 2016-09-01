@@ -6,6 +6,8 @@
 | myserv | The other service that uses server-to-server token to communicate with mywebapp |
 | mywebapp | The web service that takes the user token A and convert it to on-behalf-of token B to access O365 graph API |
 
-##myapp  \
-##        --> mywebapp --> O365 Graph
-##myserv /
+```
+myapp  \
+        --> mywebapp --> O365 Graph
+myserv /
+```
