@@ -48,6 +48,26 @@ def get_signin_url(redirect_uri):
     return signin_url
 
 
+def get_user_token(redirect_uri, code):
+    # Build the post form for the token request
+    post_data = {'grant_type': 'authorization_code',
+                 'code': code,
+                 'client_id': client_id,
+                 'client_secret': client_secret,
+                 'resource': 'https://outlook.office.com',
+                 'redirect_uri': redirect_uri,
+                 }
+
+    r = requests.post(token_url, data=post_data)
+    print "POST {0}".format(token_url)
+    print json.dumps(post_data, indent=4)
+
+    try:
+        return r.json()
+    except:
+        return 'Error retrieving token: {0} - {1}'.format(r.status_code, r.text)
+
+
 def get_token_on_behalf(user_token):
     # Build the post form for the token request
     post_data = {'grant_type': 'urn:ietf:params:oauth:grant-type:jwt-bearer',

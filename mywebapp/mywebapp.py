@@ -1,9 +1,10 @@
 from flask_httpauth import HTTPTokenAuth
 from flask import Flask, jsonify, url_for, make_response, request, redirect
-from auth_helper import get_token_on_behalf, get_token_refresh, get_signin_url, validate_token
+from auth_helper import get_token_on_behalf, get_token_refresh, get_signin_url, validate_token, get_user_token
 from graph_service import call_me_endpoint, call_send_mail_endpoint, call_messages_endpoint
 from token_cache import TokenCache
 import json
+import jwt
 
 app = Flask(__name__)
 tokens = TokenCache()
@@ -32,9 +33,17 @@ def login():
     return redirect(login_url)
 
 
-@app.route('/hello')
+@app.route('/hello', methods=['GET'])
 def hello():
-    return 'Hello!'
+    redirect_url = url_for('hello', _external=True)
+    code = request.args.get('code', '')
+    token_response = get_user_token(redirect_url, code)
+    print json.dumps(token_response, indent=4)
+    access_token = token_response['access_token']
+    decode = jwt.decode(access_token, verify=False)
+    print "ACCESS_TOKEN"
+    print json.dumps(decode, indent=4)
+    return 'Hello!\n' + access_token
 
 
 @app.errorhandler(404)
