@@ -19,6 +19,10 @@ def hello():
     code = request.args.get('code', '')
     token_response = get_user_token(redirect_url, code)
     print json.dumps(token_response, indent=4)
+
+    if token_response['error'] != '':
+        return 'Error:\n' + token_response['error_description']
+
     access_token = token_response['access_token']
     decode = jwt.decode(access_token, verify=False)
     print "ACCESS_TOKEN"
