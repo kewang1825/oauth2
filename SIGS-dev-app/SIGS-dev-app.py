@@ -16,11 +16,16 @@ def login():
 @app.route('/hello', methods=['GET'])
 def hello():
     redirect_url = url_for('hello', _external=True)
+
+    error = request.args.get('error', '')
+    if error != '':
+        return 'Error:\n' + error
+
     code = request.args.get('code', '')
     token_response = get_user_token(redirect_url, code)
     print json.dumps(token_response, indent=4)
 
-    if token_response['error'] != '':
+    if 'error' in token_response:
         return 'Error:\n' + token_response['error_description']
 
     access_token = token_response['access_token']
