@@ -7,18 +7,21 @@ import json
 authority = 'https://login.microsoftonline.com'
 
 # The authorize URL that initiates the OAuth2 client credential flow for consent.
-authorize_url = '{0}{1}'.format(authority, '/common/oauth2/authorize?{0}')
+authorize_url = '{0}{1}'.format(authority, '/common/oauth2/v2.0/authorize?{0}')
 
 # The token issuing endpoint.
-token_url = '{0}{1}'.format(authority, '/common/oauth2/token')
+token_url = '{0}{1}'.format(authority, '/common/oauth2/v2.0/token')
 
+# The scope to request
+outlook_scope = 'https://outlook.office.com/user.read'
 
 def get_signin_url(redirect_uri):
     # Build the query parameters for the signin URL.
     params = {'client_id': client_id,
               'redirect_uri': redirect_uri,
               'response_type': 'code',
-              'prompt': 'consent'
+              'prompt': 'consent',
+              'scope': outlook_scope,
               }
 
     signin_url = authorize_url.format(urlencode(params))
@@ -31,7 +34,7 @@ def get_user_token(redirect_uri, code):
                  'code': code,
                  'client_id': client_id,
                  'client_secret': client_secret,
-                 'resource': 'https://outlook.office.com',
+                 'scope': outlook_scope,
                  'redirect_uri': redirect_uri,
                  }
 

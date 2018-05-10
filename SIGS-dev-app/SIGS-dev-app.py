@@ -29,9 +29,14 @@ def hello():
         return 'Error:\n' + token_response['error_description']
 
     access_token = token_response['access_token']
-    decode = jwt.decode(access_token, verify=False)
-    print "ACCESS_TOKEN"
-    print json.dumps(decode, indent=4)
+
+    try:
+        decode = jwt.decode(access_token, verify=False)
+        print "ACCESS_TOKEN"
+        print json.dumps(decode, indent=4)
+    except:
+        print 'Failed to decode the access token'
+
     return 'Hello!\n' + access_token
 
 
