@@ -19,7 +19,7 @@ def hello():
 
     error = request.args.get('error', '')
     if error != '':
-        return 'Error:\n' + error
+        return 'Error:\n' + error + " " + request.args.get('error_description', '')
 
     code = request.args.get('code', '')
     token_response = get_user_token(redirect_url, code)
@@ -37,7 +37,7 @@ def hello():
     except:
         print 'Failed to decode the access token'
 
-    return 'Hello!\n' + access_token
+    return 'Bearer ' + access_token
 
 
 if __name__ == '__main__':
