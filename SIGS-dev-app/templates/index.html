@@ -1,15 +1,16 @@
 <html>
   <head lang="en">
     <meta charset="UTF-8">
-    <title>Flask React</title>
+    <title>SIGS-dev-app</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- styles -->
   </head>
   <body>
     <div class="container">
       <h1>Token Generator for SIGS</h1>
+      <div id="adaptivecards"></div>
       <br>
-      <div id="content"></div>
+      <div id="token"></div>
     </div>
 
     <!-- scripts -->
@@ -17,8 +18,65 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
     <script type="text/jsx">
-        const element = <h2>Hello, world</h2>;
-        ReactDOM.render(element, document.getElementById('content'));
+        const element = <h2>Token to be generated here</h2>;
+        ReactDOM.render(element, document.getElementById('token'));
+    </script>
+
+    <!-- scripts -->
+    <script src="https://unpkg.com/adaptivecards/dist/adaptivecards.js"></script>
+    <script type="text/javascript">
+    // Author a card
+    // In practice you'll probably get this from a service
+    // see http://adaptivecards.io/samples/ for inspiration
+    var card = {
+        "type": "AdaptiveCard",
+        "version": "1.0",
+        "body": [
+            {
+                "type": "Image",
+                "url": "http://adaptivecards.io/content/adaptive-card-50.png"
+            },
+            {
+                "type": "TextBlock",
+                "text": "Hello **Adaptive Cards!**"
+            }
+        ],
+        "actions": [
+            {
+                "type": "Action.OpenUrl",
+                "title": "Learn more",
+                "url": "http://adaptivecards.io"
+            },
+            {
+                "type": "Action.OpenUrl",
+                "title": "GitHub",
+                "url": "http://github.com/Microsoft/AdaptiveCards"
+            }
+        ]
+    };
+
+    // Create an AdaptiveCard instance
+    var adaptiveCard = new AdaptiveCards.AdaptiveCard();
+
+    // Set its hostConfig property unless you want to use the default Host Config
+    // Host Config defines the style and behavior of a card
+    adaptiveCard.hostConfig = new AdaptiveCards.HostConfig({
+        fontFamily: "Segoe UI, Helvetica Neue, sans-serif"
+        // More host config options
+    });
+
+    // Set the adaptive card's event handlers. onExecuteAction is invoked
+    // whenever an action is clicked in the card
+    adaptiveCard.onExecuteAction = function(action) { alert("Ow!"); }
+
+    // Parse the card payload
+    adaptiveCard.parse(card);
+
+    // Render the card to an HTML element:
+    var renderedCard = adaptiveCard.render();
+
+    // And finally insert it somewhere in your page:
+    document.getElementById('adaptivecards').appendChild(renderedCard);
     </script>
   </body>
 </html>
