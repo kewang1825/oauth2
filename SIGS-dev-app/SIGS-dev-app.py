@@ -1,4 +1,4 @@
-from flask import Flask, url_for, request, redirect
+from flask import Flask, url_for, request, redirect, render_template
 from auth_helper import get_signin_url, get_user_token
 import json
 import jwt
@@ -7,6 +7,11 @@ app = Flask(__name__)
 
 
 @app.route('/')
+def index():
+    return render_template('index.html')
+
+
+@app.route('/login')
 def login():
     redirect_url = url_for('hello', _external=True)
     login_url = get_signin_url(redirect_url)
