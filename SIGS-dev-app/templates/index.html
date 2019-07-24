@@ -18,7 +18,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
     <script type="text/jsx">
-        const element = <h2>Token to be generated here</h2>;
+        var s = "Token to be generated here"
+        const element = <h2>{s}</h2>;
         ReactDOM.render(element, document.getElementById('token'));
     </script>
 
@@ -43,14 +44,35 @@
         ],
         "actions": [
             {
-                "type": "Action.OpenUrl",
-                "title": "Learn more",
-                "url": "http://adaptivecards.io"
+                "type": "Action.Submit",
+                "title": "Get token",
+                "data": {
+                  "signal": "AppUsage"
+                }
             },
             {
-                "type": "Action.OpenUrl",
-                "title": "GitHub",
-                "url": "http://github.com/Microsoft/AdaptiveCards"
+                "type": "Action.ShowCard",
+                "title": "Comment",
+                "card": {
+                  "type": "AdaptiveCard",
+                  "body": [
+                    {
+                      "type": "Input.Text",
+                      "id": "comment",
+                      "isMultiline": true,
+                      "placeholder": "Enter your comment"
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "Action.Submit",
+                      "title": "OK",
+                      "data": {
+                        "signal": "CommentAdded"
+                      }
+                    }
+                  ]
+                }
             }
         ]
     };
@@ -67,7 +89,7 @@
 
     // Set the adaptive card's event handlers. onExecuteAction is invoked
     // whenever an action is clicked in the card
-    adaptiveCard.onExecuteAction = function(action) { alert("Ow!"); }
+    adaptiveCard.onExecuteAction = function(action) { alert(action.data["signal"]); }
 
     // Parse the card payload
     adaptiveCard.parse(card);
