@@ -15,6 +15,18 @@ function ShowCard(card) {
     var signal = action.data == null ? null : action.data["signal"];
     const element = <h2>{signal}</h2>
     ReactDOM.render(element, document.getElementById('signal'));
+
+    var token = document.getElementById('token').innerText;
+
+    if (signal == 'AppUsage') {
+        $.getJSON($SCRIPT_ROOT + '/getsignals/' + token, null, function(data) {
+            $('#result').text(JSON.stringify(data, null, 2));
+        });
+    } else if (signal == 'CommentAdded') {
+        $.post($SCRIPT_ROOT + '/postsignal/' + signal + '/' + token, function(data) {
+            $('#result').text(data);
+        });
+    }
   }
 
   // Parse the card payload
