@@ -58,5 +58,10 @@ def get_signals(token):
     return jsonify(results = signals)
 
 
+@app.route('/postsignal/<string:signal>/<string:token>', methods=['POST', 'GET'])
+def post_signal(signal, token):
+    return sigs_post_signal(token, signal)
+
+
 if __name__ == '__main__':
     app.run(debug=True, host="localhost")

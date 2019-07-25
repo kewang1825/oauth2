@@ -1,7 +1,7 @@
 import requests
 from config import client_id
 import json
-import datetime
+from datetime import datetime
 
 signals_url = 'https://outlook.office.com/api/v2.0/me/signals'
 
@@ -29,8 +29,8 @@ def sigs_get_signals(token):
 def sigs_post_signal(token, signal, customproperties=None):
     # Build the post form for the signal request
     post_data = {'SignalType': signal,
-                 'StartTime': datetime.datetime.now(),
-                 'EndTime': datetime.datetime.now(),
+                 'StartTime': datetime.now().isoformat() + '-07:00',
+                 'EndTime': datetime.now().isoformat() + '-07:00',
                  'Compliance': 'SystemMetaData',
                  'Status': 'Completed',
                  'Locale': 'en-US',
@@ -44,21 +44,18 @@ def sigs_post_signal(token, signal, customproperties=None):
                      'ActorIdType': 'AAD',
                      'ActorId': 'Self',
                     },
-                 'CustomProperties': customproperties
                  }
 
-    headers = {'Prefer': 'exchange.behavior="SignalAccessV2,OpenComplexTypeExtensions"',
+    headers = {'Prefer': 'exchange.behavior="SignalAccessV2,OpenComplexTypeExtensions,EhamJitProvisioning",outlook.data-source="Substrate"',
                'Content-Type': 'application/json',
                'Authorization': 'Bearer ' + token,
               }
 
-    r = requests.post(signals_url, data=post_data, headers=headers)
+    r = requests.post(signals_url, json=post_data, headers=headers)
     print "POST {0}".format(signals_url)
     print json.dumps(post_data, indent=4)
+    print r.status_code
+    return r.text
 
-    try:
-        return r.json()
-    except:
-        return 'Error retrieving token: {0} - {1}'.format(r.status_code, r.text)
 
 
