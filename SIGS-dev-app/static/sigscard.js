@@ -54,7 +54,7 @@ var card = {
     ],
     "actions": [
         {
-            "type": "Action.Submit",
+            "type": "Action.OpenUrl",
             "title": "Get Signals",
         },
         {
