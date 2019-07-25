@@ -13,7 +13,8 @@ function ShowCard(card) {
   // whenever an action is clicked in the card
   adaptiveCard.onExecuteAction = function (action) {
     var signal = action.data == null ? null : action.data["signal"];
-    ReactDOM.render(<ShowToken token={signal}/>, document.getElementById('token'));
+    const element = <h2>{signal}</h2>
+    ReactDOM.render(element, document.getElementById('signal'));
   }
 
   // Parse the card payload
@@ -76,13 +77,3 @@ var card = {
 
 //ReactDOM.render(<ShowCard card={card} />, document.getElementById('adaptivecards'));
 document.getElementById('adaptivecards').appendChild(ShowCard(card));
-
-function ShowToken(props) {
-  const token = props.token;
-  if (token != null) {
-    return <h2>{token}</h2>;
-  }
-  return <h2>Token to be generated here</h2>;
-}
-
-ReactDOM.render(<ShowToken />, document.getElementById('token'));

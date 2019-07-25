@@ -6,12 +6,12 @@ import jwt
 app = Flask(__name__)
 
 
+@app.route('/index/<string:token>')
+def index(token):
+    return render_template('index.html', token=token)
+
+
 @app.route('/')
-def index():
-    return render_template('index.html')
-
-
-@app.route('/login')
 def login():
     redirect_url = url_for('hello', _external=True)
     login_url = get_signin_url(redirect_url)
@@ -42,7 +42,7 @@ def hello():
     except:
         print 'Failed to decode the access token'
 
-    return 'Bearer ' + access_token
+    return redirect(url_for('index', token=access_token))
 
 
 if __name__ == '__main__':

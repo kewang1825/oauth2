@@ -7,10 +7,12 @@
   </head>
   <body>
     <div class="container">
-      <h1>Token Generator for SIGS</h1>
+      <h1>Signal Generator for SIGS</h1>
       <div id="adaptivecards"></div>
       <br>
-      <div id="token"></div>
+      <div id="token">{{token}}</div>
+      <br>
+      <div id="signal"></div>
     </div>
 
     <!-- scripts -->
@@ -19,5 +21,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
     <script type="text/jsx" src="{{ url_for('static', filename='sigscard.js') }}"></script>
+
   </body>
 </html>
