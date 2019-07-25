@@ -13,7 +13,7 @@ function ShowCard(card) {
   // whenever an action is clicked in the card
   adaptiveCard.onExecuteAction = function (action) {
     var signal = action.data == null ? null : action.data["signal"];
-    const element = <h2>{signal}</h2>
+    const element = <h2>{signal}</h2>;
     ReactDOM.render(element, document.getElementById('signal'));
 
     var token = document.getElementById('token').innerText;
@@ -56,6 +56,11 @@ var card = {
         {
             "type": "Action.OpenUrl",
             "title": "Get Signals",
+        },
+        {
+            "type": "Action.Http",
+            "title": "I'm browser",
+            "signal": "BrowserUsage"
         },
         {
             "type": "Action.Submit",

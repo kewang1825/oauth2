@@ -1,32 +1,23 @@
-  // import the module
-import * as AdaptiveCards from "adaptivecards";
+class HttpAction extends AdaptiveCards.Action {
 
-export class HttpAction extends AdaptiveCards.Action {
-    method: string;
-    body: string;
-    signal: string;
-
-    getJsonTypeName(): string {
+    get getJsonTypeName() {
         return "Action.Http";
     }
 
     execute() {
-        ReactDOM.render(<ShowToken token={this.signal}/>, document.getElementById('token'));
+        const element = <h2>{this.signal}</h2>;
+        ReactDOM.render(element, document.getElementById('signal'));
     }
 
-    parse(json: any, errors?: Array<AdaptiveCards.HostConfig.IValidationError>) {
-        super.parse(json, errors);
+    parse(json) {
+        super.parse(json);
 
-        this.method = AdaptiveCards.getStringValue(json["method"]);
-        this.body = AdaptiveCards.getStringValue(json["body"]);
         this.signal = AdaptiveCards.getStringValue(json["signal"]);
     }
 
-    toJSON() : any {
+    get toJSON() {
         let result = super.toJSON();
 
-        AdaptiveCards.setProperty(result, "method", this.method);
-        AdaptiveCards.setProperty(result, "body", this.body);
         AdaptiveCards.setProperty(result, "signal", this.signal);
 
         return result;
