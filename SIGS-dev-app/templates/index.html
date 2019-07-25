@@ -10,10 +10,11 @@
       <h1>Auto signals capture card</h1>
       <div id="adaptivecards"></div>
       <br>
-      <div id="token">{{token}}</div>
+      <pre><span id="token">{{token}}</span></pre>
       <br>
       <div id="signal"></div>
     </div>
+    <pre><span id=result>?</span></pre>
 
     <!-- scripts -->
     <script src="https://unpkg.com/adaptivecards/dist/adaptivecards.js"></script>
@@ -22,5 +23,14 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
     <script type="text/jsx" src="{{ url_for('static', filename='sigscard.js') }}"></script>
 
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type=text/javascript>
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+
+      $.getJSON($SCRIPT_ROOT + '/getsignals/{{token}}', null, function(data) {
+        console.log(data);
+        $('#result').text(JSON.stringify(data, null, 2));
+      });
+    </script>
   </body>
 </html>

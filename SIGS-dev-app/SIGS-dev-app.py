@@ -49,6 +49,9 @@ def hello():
 @app.route('/getsignals/<string:token>', methods=['GET'])
 def get_signals(token):
     signals_response = sigs_get_signals(token)
+    if 'error' in signals_response:
+        return jsonify(error = signals_response['error'])
+
     signals = signals_response['value']
     print "VALUE"
     print json.dumps(signals, indent=4)
