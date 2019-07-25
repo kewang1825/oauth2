@@ -43,7 +43,7 @@ var card = {
     "actions": [
         {
             "type": "Action.Submit",
-            "title": "Get token",
+            "title": "Get Signals",
             "data": {
               "signal": "AppUsage"
             }

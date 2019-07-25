@@ -1,5 +1,6 @@
-from flask import Flask, url_for, request, redirect, render_template
+from flask import Flask, url_for, request, redirect, render_template, jsonify
 from auth_helper import get_signin_url, get_user_token
+from sigsapi_helper import sigs_get_signals, sigs_post_signal
 import json
 import jwt
 
@@ -43,6 +44,15 @@ def hello():
         print 'Failed to decode the access token'
 
     return redirect(url_for('index', token=access_token))
+
+
+@app.route('/getsignals/<string:token>', methods=['GET'])
+def get_signals(token):
+    signals_response = sigs_get_signals(token)
+    signals = signals_response['value']
+    print "VALUE"
+    print json.dumps(signals, indent=4)
+    return jsonify(results = signals)
 
 
 if __name__ == '__main__':
