@@ -19,11 +19,11 @@ function ShowCard(card) {
     var token = document.getElementById('token').innerText;
 
     if (signal == null) {
-        $.getJSON($SCRIPT_ROOT + '/getsignals/' + token, null, function(data) {
+        $.getJSON($SCRIPT_ROOT + '/getsignals?token=' + token, null, function(data) {
             $('#result').text(JSON.stringify(data, null, 2));
         });
     } else {
-        $.post($SCRIPT_ROOT + '/postsignal/' + signal + '/' + token, function(data) {
+        $.post($SCRIPT_ROOT + '/postsignal?signal=' + signal + '&token=' + token, function(data) {
             $('#result').text(data);
         });
     }

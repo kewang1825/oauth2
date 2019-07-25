@@ -7,12 +7,12 @@ import jwt
 app = Flask(__name__)
 
 
-@app.route('/index/<string:token>')
-def index(token):
-    return render_template('index.html', token=token)
+@app.route('/index', methods=['GET'])
+def index():
+    return render_template('index.html', token=request.args.get('token'))
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def login():
     redirect_url = url_for('hello', _external=True)
     login_url = get_signin_url(redirect_url)
@@ -46,8 +46,9 @@ def hello():
     return redirect(url_for('index', token=access_token))
 
 
-@app.route('/getsignals/<string:token>', methods=['GET'])
-def get_signals(token):
+@app.route('/getsignals', methods=['GET'])
+def get_signals():
+    token = request.args.get('token')
     signals_response = sigs_get_signals(token)
     if 'error' in signals_response:
         return jsonify(error = signals_response['error'])
@@ -58,8 +59,10 @@ def get_signals(token):
     return jsonify(signals = signals)
 
 
-@app.route('/postsignal/<string:signal>/<string:token>', methods=['POST', 'GET'])
-def post_signal(signal, token):
+@app.route('/postsignal', methods=['POST', 'GET'])
+def post_signal():
+    token = request.args.get('token')
+    signal = request.args.get('signal')
     return sigs_post_signal(token, signal)
 
 
