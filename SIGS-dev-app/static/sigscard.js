@@ -17,7 +17,7 @@ function ShowCard(card) {
     ReactDOM.render(element, document.getElementById('signal'));
 
     var token = document.getElementById('token').innerText;
-
+    $('#result').text('waiting...');
     if (signal == null) {
         $.getJSON($SCRIPT_ROOT + '/getsignals?token=' + token, null, function(data) {
             $('#result').text(JSON.stringify(data, null, 2));
