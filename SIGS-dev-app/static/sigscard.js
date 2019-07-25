@@ -18,11 +18,11 @@ function ShowCard(card) {
 
     var token = document.getElementById('token').innerText;
 
-    if (signal == 'AppUsage') {
+    if (signal == null) {
         $.getJSON($SCRIPT_ROOT + '/getsignals/' + token, null, function(data) {
             $('#result').text(JSON.stringify(data, null, 2));
         });
-    } else if (signal == 'CommentAdded') {
+    } else {
         $.post($SCRIPT_ROOT + '/postsignal/' + signal + '/' + token, function(data) {
             $('#result').text(data);
         });
@@ -56,6 +56,10 @@ var card = {
         {
             "type": "Action.Submit",
             "title": "Get Signals",
+        },
+        {
+            "type": "Action.Submit",
+            "title": "I used this app",
             "data": {
               "signal": "AppUsage"
             }
