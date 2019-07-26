@@ -7,6 +7,12 @@ class HttpAction extends AdaptiveCards.Action {
     execute() {
         const element = <h2>{this.signal}</h2>;
         ReactDOM.render(element, document.getElementById('signal'));
+
+        var token = document.getElementById('token').innerText;
+        $('#result').text('waiting...');
+        $.post($SCRIPT_ROOT + '/postsignal?signal=' + this.signal + '&token=' + token, function(data) {
+            $('#result').text(data);
+        });
     }
 
     parse(json) {
@@ -19,7 +25,6 @@ class HttpAction extends AdaptiveCards.Action {
         let result = super.toJSON();
 
         AdaptiveCards.setProperty(result, "signal", this.signal);
-
         return result;
     }
 }
