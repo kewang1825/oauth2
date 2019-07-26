@@ -1,29 +1,47 @@
+function GetHttp(url) {
+    $('#result').text('waiting...');
+    $.getJSON(url, null, function(data) {
+        $('#result').text(JSON.stringify(data, null, 2));
+    });
+}
+
+function OpenHttp(url) {
+    window.open(url, "_blank");
+}
+
+// Extends a new action type: Action.Http
 class HttpAction extends AdaptiveCards.Action {
 
     get getJsonTypeName() {
-        return "Action.Http";
+        return 'Action.Http';
     }
 
     execute() {
-        const element = <h2>{this.signal}</h2>;
-        ReactDOM.render(element, document.getElementById('signal'));
+        if (this.url != null) {
+            if (this.method == "GET") {
+                GetHttp(this.url);
+            } else {
+                OpenHttp(this.url);
+            }
+        }
 
-        var token = document.getElementById('token').innerText;
-        $('#result').text('waiting...');
-        $.post($SCRIPT_ROOT + '/postsignal?signal=' + this.signal + '&token=' + token, function(data) {
-            $('#result').text(data);
-        });
+        // Check if signal is set, then post the signal after the action is performed
+        RenderAndPostSignal(this.signal);
     }
 
     parse(json) {
         super.parse(json);
 
+        this.method = AdaptiveCards.getStringValue(json["method"]);
+        this.url = AdaptiveCards.getStringValue(json["url"]);
         this.signal = AdaptiveCards.getStringValue(json["signal"]);
     }
 
     get toJSON() {
         let result = super.toJSON();
 
+        AdaptiveCards.setProperty(result, "method", this.method);
+        AdaptiveCards.setProperty(result, "url", this.url);
         AdaptiveCards.setProperty(result, "signal", this.signal);
         return result;
     }

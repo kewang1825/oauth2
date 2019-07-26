@@ -1,39 +1,40 @@
-function ShowCard(card) {
-  // Create an AdaptiveCard instance
-  var adaptiveCard = new AdaptiveCards.AdaptiveCard();
-
-  // Set its hostConfig property unless you want to use the default Host Config
-  // Host Config defines the style and behavior of a card
-  adaptiveCard.hostConfig = new AdaptiveCards.HostConfig({
-    fontFamily: "Segoe UI, Helvetica Neue, sans-serif"
-    // More host config options
-  });
-
-  // Set the adaptive card's event handlers. onExecuteAction is invoked
-  // whenever an action is clicked in the card
-  adaptiveCard.onExecuteAction = function (action) {
-    var signal = action.data == null ? null : action.data["signal"];
+function RenderAndPostSignal(signal) {
     const element = <h2>{signal}</h2>;
     ReactDOM.render(element, document.getElementById('signal'));
 
-    var token = document.getElementById('token').innerText;
-    $('#result').text('waiting...');
-    if (signal == null) {
-        $.getJSON($SCRIPT_ROOT + '/getsignals?token=' + token, null, function(data) {
-            $('#result').text(JSON.stringify(data, null, 2));
-        });
-    } else {
-        $.post($SCRIPT_ROOT + '/postsignal?signal=' + signal + '&token=' + token, function(data) {
+    if (signal != null) {
+        var token = document.getElementById('token').innerText;
+        $('#result').text('waiting...');
+        $.post('/postsignal?signal=' + signal + '&token=' + token, function (data) {
             $('#result').text(data);
         });
     }
-  };
+}
 
-  // Parse the card payload
-  adaptiveCard.parse(card);
+function ShowCard(card) {
+    // Create an AdaptiveCard instance
+    var adaptiveCard = new AdaptiveCards.AdaptiveCard();
 
-  // Render the card to an HTML element:
-  return adaptiveCard.render();
+    // Set its hostConfig property unless you want to use the default Host Config
+    // Host Config defines the style and behavior of a card
+    adaptiveCard.hostConfig = new AdaptiveCards.HostConfig({
+        fontFamily: "Segoe UI, Helvetica Neue, sans-serif"
+        // More host config options
+    });
+
+    // Set the adaptive card's event handlers. onExecuteAction is invoked
+    // whenever an action is clicked in the card
+    adaptiveCard.onExecuteAction = function (action) {
+        // Check if signal is set for Action.Submit, then post the signal after the action is performed
+        var signal = action.data == null ? null : action.data["signal"];
+        RenderAndPostSignal(signal);
+    };
+
+    // Parse the card payload
+    adaptiveCard.parse(card);
+
+    // Render the card to an HTML element:
+    return adaptiveCard.render();
 }
 
 // Author a card
@@ -54,12 +55,15 @@ var card = {
     ],
     "actions": [
         {
-            "type": "Action.OpenUrl",
+            "type": "Action.Http",
             "title": "Get Signals",
+            "method": "GET",
+            "url": "/getsignals?token=" + document.getElementById('token').innerText
         },
         {
             "type": "Action.Http",
             "title": "Learn more",
+            "url": "https://aka.ms/sigs",
             "signal": "BrowserUsage"
         },
         {
@@ -71,28 +75,27 @@ var card = {
             "type": "Action.ShowCard",
             "title": "Comment",
             "card": {
-              "type": "AdaptiveCard",
-              "body": [
-                {
-                  "type": "Input.Text",
-                  "id": "comment",
-                  "isMultiline": true,
-                  "placeholder": "Enter your comment"
-                }
-              ],
-              "actions": [
-                {
-                  "type": "Action.Submit",
-                  "title": "OK",
-                  "data": {
-                    "signal": "CommentAdded"
-                  }
-                }
-              ]
+                "type": "AdaptiveCard",
+                "body": [
+                    {
+                        "type": "Input.Text",
+                        "id": "comment",
+                        "isMultiline": true,
+                        "placeholder": "Enter your comment"
+                    }
+                ],
+                "actions": [
+                    {
+                        "type": "Action.Submit",
+                        "title": "OK",
+                        "data": {
+                            "signal": "CommentAdded"
+                        }
+                    }
+                ]
             }
         }
     ]
 };
 
-//ReactDOM.render(<ShowCard card={card} />, document.getElementById('adaptivecards'));
 document.getElementById('adaptivecards').appendChild(ShowCard(card));
