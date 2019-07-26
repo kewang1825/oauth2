@@ -27,7 +27,7 @@ function ShowCard(card) {
             $('#result').text(data);
         });
     }
-  }
+  };
 
   // Parse the card payload
   adaptiveCard.parse(card);
@@ -59,15 +59,13 @@ var card = {
         },
         {
             "type": "Action.Http",
-            "title": "I'm browser",
+            "title": "Learn more",
             "signal": "BrowserUsage"
         },
         {
-            "type": "Action.Submit",
-            "title": "I used this app",
-            "data": {
-              "signal": "AppUsage"
-            }
+            "type": "Action.Http",
+            "title": "Open the App",
+            "signal": "AppUsage"
         },
         {
             "type": "Action.ShowCard",
