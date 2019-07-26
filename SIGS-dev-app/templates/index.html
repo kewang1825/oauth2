@@ -3,7 +3,12 @@
     <meta charset="UTF-8">
     <title>SIGS-dev-app</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- styles -->
+    <!-- scripts -->
+    <script src="https://unpkg.com/adaptivecards/dist/adaptivecards.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   </head>
   <body>
     <div class="container">
@@ -16,11 +21,6 @@
     </div>
 
     <!-- scripts -->
-    <script src="https://unpkg.com/adaptivecards/dist/adaptivecards.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/jsx" src="{{ url_for('static', filename='httpaction.js') }}"></script>
     <script type="text/jsx" src="{{ url_for('static', filename='sigscard.js') }}"></script>
   </body>
