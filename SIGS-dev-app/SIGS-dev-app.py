@@ -56,7 +56,7 @@ def get_signals():
     signals = signals_response['value']
     print "VALUE"
     print json.dumps(signals, indent=4)
-    return jsonify(signals = signals)
+    return jsonify(value = signals)
 
 
 @app.route('/postsignal', methods=['POST', 'GET'])
