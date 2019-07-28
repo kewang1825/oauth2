@@ -1,15 +1,19 @@
-from flask import Flask, url_for, request, redirect, render_template, jsonify
+from flask import Flask, url_for, request, redirect, render_template, jsonify, session
 from auth_helper import get_signin_url, get_user_token
 from sigsapi_helper import sigs_get_signals, sigs_post_signal
 import json
 import jwt
 
 app = Flask(__name__)
-
+app.secret_key = "super secret key"
 
 @app.route('/index', methods=['GET'])
 def index():
-    return render_template('index.html', token=request.args.get('token'))
+    token = request.args.get('token')
+    if not token:
+        token = session.get('token')
+
+    return render_template('index.html', token=token)
 
 
 @app.route('/', methods=['GET'])
@@ -43,7 +47,8 @@ def hello():
     except:
         print 'Failed to decode the access token'
 
-    return redirect(url_for('index', token=access_token))
+    session['token'] = access_token
+    return redirect(url_for('index'))
 
 
 @app.route('/getsignals', methods=['GET'])
@@ -67,4 +72,5 @@ def post_signal():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host="localhost")
+    app.run(debug=True, host='localhost')
+    #app.run(debug=True, host='localhost', ssl_context='adhoc')
