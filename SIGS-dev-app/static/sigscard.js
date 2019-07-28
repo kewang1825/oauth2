@@ -3,9 +3,8 @@ function RenderAndPostSignal(signal) {
     ReactDOM.render(element, document.getElementById('signal'));
 
     if (signal != null) {
-        var token = document.getElementById('token').innerText;
         $('#result').text('waiting...');
-        $.post('/postsignal?signal=' + signal + '&token=' + token, function (data) {
+        $.post('/postsignal?signal=' + signal, function (data) {
             $('#result').text(data);
         });
     }
@@ -58,7 +57,7 @@ var card = {
             "type": "Action.Http",
             "title": "Get Signals",
             "method": "GET",
-            "url": "/getsignals?token=" + document.getElementById('token').innerText
+            "url": "/getsignals"
         },
         {
             "type": "Action.Http",

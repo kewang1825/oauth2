@@ -54,6 +54,9 @@ def hello():
 @app.route('/getsignals', methods=['GET'])
 def get_signals():
     token = request.args.get('token')
+    if not token:
+        token = session.get('token')
+
     signals_response = sigs_get_signals(token)
     if 'error' in signals_response:
         return jsonify(error = signals_response['error'])
@@ -67,6 +70,9 @@ def get_signals():
 @app.route('/postsignal', methods=['POST', 'GET'])
 def post_signal():
     token = request.args.get('token')
+    if not token:
+        token = session.get('token')
+
     signal = request.args.get('signal')
     return sigs_post_signal(token, signal)
 
