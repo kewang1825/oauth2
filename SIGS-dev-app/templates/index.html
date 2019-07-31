@@ -3,6 +3,11 @@
     <meta charset="UTF-8">
     <title>SIGS-dev-app</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      code {
+        overflow-wrap: break-word;
+      }
+    </style>
     <!-- scripts -->
     <script src="https://unpkg.com/adaptivecards/dist/adaptivecards.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.min.js"></script>
@@ -17,7 +22,7 @@
       <div id="signal"></div>
       <pre><span id=result></span></pre>
       <br>
-      Bearer <span id="token">{{token}}</span>
+      <pre><code>Bearer <span id="token">{{token}}</span></code></pre>
     </div>
 
     <!-- scripts -->

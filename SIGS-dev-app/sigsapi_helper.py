@@ -7,7 +7,7 @@ signals_url = 'https://outlook.office.com/api/v2.0/me/signals'
 
 def sigs_get_signals(token):
     # Build the query parameters for the signals URL.
-    params = {'$orderby': 'StartTime desc',
+    params = {'$orderby': 'CreationTime desc',
               '$top': 1,
               }
 

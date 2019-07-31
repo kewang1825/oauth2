@@ -53,8 +53,11 @@ def hello():
 
 @app.route('/getsignals', methods=['GET'])
 def get_signals():
-    token = request.args.get('token')
-    if not token:
+    # get the auth token
+    auth_header = request.headers.get('Authorization')
+    if auth_header:
+        token = auth_header.split(" ")[1]
+    else:
         token = session.get('token')
 
     signals_response = sigs_get_signals(token)
@@ -69,11 +72,15 @@ def get_signals():
 
 @app.route('/postsignal', methods=['POST', 'GET'])
 def post_signal():
-    token = request.args.get('token')
-    if not token:
+    signal = request.args.get('signal')
+
+    # get the auth token
+    auth_header = request.headers.get('Authorization')
+    if auth_header:
+        token = auth_header.split(" ")[1]
+    else:
         token = session.get('token')
 
-    signal = request.args.get('signal')
     return sigs_post_signal(token, signal)
 
 
