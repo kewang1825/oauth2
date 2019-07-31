@@ -6,7 +6,7 @@ import json
 import jwt
 
 app = Flask(__name__)
-#app.secret_key = "super secret key"
+app.secret_key = "super secret key"
 
 @app.route('/index', methods=['GET'])
 def index():
