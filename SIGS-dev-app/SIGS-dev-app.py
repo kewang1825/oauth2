@@ -1,11 +1,12 @@
 from flask import Flask, url_for, request, redirect, render_template, jsonify, session
+from flask_cors import CORS, cross_origin
 from auth_helper import get_signin_url, get_user_token
 from sigsapi_helper import sigs_get_signals, sigs_post_signal
 import json
 import jwt
 
 app = Flask(__name__)
-app.secret_key = "super secret key"
+#app.secret_key = "super secret key"
 
 @app.route('/index', methods=['GET'])
 def index():
@@ -52,6 +53,7 @@ def hello():
 
 
 @app.route('/api/getsignals', methods=['GET'])
+@cross_origin()
 def get_signals():
     # get the auth token
     auth_header = request.headers.get('Authorization')
@@ -65,12 +67,14 @@ def get_signals():
         return jsonify(error = signals_response['error'])
 
     signals = signals_response['value']
+
     print "VALUE"
     print json.dumps(signals, indent=4)
     return jsonify(value = signals)
 
 
 @app.route('/api/postsignal', methods=['POST', 'GET'])
+@cross_origin()
 def post_signal():
     signal = request.args.get('signal')
 
