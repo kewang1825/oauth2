@@ -51,7 +51,7 @@ def hello():
     return redirect(url_for('index'))
 
 
-@app.route('/getsignals', methods=['GET'])
+@app.route('/api/getsignals', methods=['GET'])
 def get_signals():
     # get the auth token
     auth_header = request.headers.get('Authorization')
@@ -70,7 +70,7 @@ def get_signals():
     return jsonify(value = signals)
 
 
-@app.route('/postsignal', methods=['POST', 'GET'])
+@app.route('/api/postsignal', methods=['POST', 'GET'])
 def post_signal():
     signal = request.args.get('signal')
 

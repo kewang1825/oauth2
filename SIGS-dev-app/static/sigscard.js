@@ -4,7 +4,7 @@ function RenderAndPostSignal(signal) {
 
     if (signal != null) {
         $('#result').text('waiting...');
-        $.post('/postsignal?signal=' + signal, function (data) {
+        $.post('/api/postsignal?signal=' + signal, function (data) {
             $('#result').text(data);
         });
     }
@@ -57,7 +57,7 @@ var card = {
             "type": "Action.Http",
             "title": "Get Signals",
             "method": "GET",
-            "url": "/getsignals"
+            "url": "/api/getsignals"
         },
         {
             "type": "Action.Http",
