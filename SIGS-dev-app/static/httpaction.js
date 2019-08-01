@@ -1,3 +1,14 @@
+function PostSignal(signal) {
+    $('#signal').text(signal);
+
+    if (signal != null) {
+        $('#result').text('waiting...');
+        $.post('/api/postsignal?signal=' + signal, function (data) {
+            $('#result').text(data);
+        });
+    }
+}
+
 function GetHttp(url) {
     $('#result').text('waiting...');
     $.getJSON(url, null, function(data) {
@@ -26,7 +37,7 @@ class HttpAction extends AdaptiveCards.Action {
         }
 
         // Check if signal is set, then post the signal after the action is performed
-        RenderAndPostSignal(this.signal);
+        PostSignal(this.signal);
     }
 
     parse(json) {
